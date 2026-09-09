@@ -36,6 +36,10 @@ except Exception as e:
     print(f"Scraper error: {e}")
     exit(1)
 
+print(f"Total jobs scraped: {len(jobs)}")
+if not jobs.empty:
+    print(jobs[['title', 'company', 'location']].to_string())
+
 db_conn = setup_database()
 cursor = db_conn.cursor()
 
