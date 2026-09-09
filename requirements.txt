@@ -1,4 +1,4 @@
-discord.py
 python-jobspy
 pandas
-python-dotenv
+requests
+google-genai
