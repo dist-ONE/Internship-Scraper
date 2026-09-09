@@ -30,7 +30,7 @@ def evaluate_fit(title, description):
     You are an expert technical recruiter evaluating an internship opportunity for a specific candidate.
     
     Candidate Profile:
-    - Education: First-year Artificial Intelligence student at Babeș-Bolyai University.
+    - Education: Second-year Artificial Intelligence student at Babeș-Bolyai University.
     - Languages: C, C++, Python, Luau, Bash.
     - Core Engineering: Game development (client-server architectures, custom physics/UI, Roblox Knit framework), AI applications (local LLMs via Ollama, RAG pipelines, ChromaDB), 3D geometric simulations, and graph algorithms.
     - Notable Projects: 'CADPilot' (AI 3D model generator, Top 80 InnovationLabs) and 'OverEngineered' (multiplayer party game).
