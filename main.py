@@ -43,7 +43,7 @@ def evaluate_fit(title, description):
     - "reason": A single, concise sentence explaining the score based on the candidate's specific background.
     """
     try:
-        chat = client.chats.create(model='gemini-2.5-flash')
+        chat = client.chats.create(model='gemini-3.6-flash')
         
         response = chat.send_message(
             prompt,
