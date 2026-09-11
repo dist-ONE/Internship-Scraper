@@ -3,6 +3,7 @@ import sqlite3
 import pandas as pd
 import requests
 import json
+import time
 from google import genai
 from google.genai import types
 from jobspy import scrape_jobs
@@ -25,7 +26,7 @@ def setup_database():
 def clean_val(val, default):
     return default if pd.isna(val) else str(val)
 
-def evaluate_fit(title, description):
+def evaluate_fit(title, description) -> dict:
     prompt = f"""
     You are an expert technical recruiter evaluating an internship opportunity for a specific candidate.
     
@@ -42,23 +43,43 @@ def evaluate_fit(title, description):
     - "score": An integer from 1 to 10 representing how well the candidate's skills and level match the job.
     - "reason": A single, concise sentence explaining the score based on the candidate's specific background.
     """
-    try:
-        chat = client.chats.create(model='gemini-3.6-flash')
-        
-        response = chat.send_message(
-            prompt,
-            config=types.GenerateContentConfig(
-                response_mime_type="application/json"
-            )
-        )
+    
+    max_retries = 3
+    base_delay = 5 
 
-        if not response.text:
-            return {"score": 0, "reason": "No response from AI model."}
-        
-        return json.loads(response.text)
-    except Exception as e:
-        print(f"Gemini Error: {e}")
-        return {"score": 0, "reason": "Could not generate AI score."}
+    for attempt in range(max_retries):
+        try:
+            chat = client.chats.create(model='gemini-3.6-flash')
+            
+            response = chat.send_message(
+                prompt,
+                config=types.GenerateContentConfig(
+                    response_mime_type="application/json"
+                )
+            )
+
+            if not response.text:
+                return {"score": 0, "reason": "No response from AI model."}
+            
+            result = json.loads(response.text)
+            if not isinstance(result, dict):
+                return {"score": 0, "reason": "AI returned an invalid format."}
+                
+            return result
+            
+        except Exception as e:
+            error_msg = str(e)
+            if "503" in error_msg or "429" in error_msg:
+                if attempt < max_retries - 1:
+                    sleep_time = base_delay * (2 ** attempt) 
+                    print(f"Gemini servers busy. Retrying in {sleep_time} seconds (Attempt {attempt + 1}/{max_retries})...")
+                    time.sleep(sleep_time)
+                    continue 
+            
+            print(f"Gemini Error after {attempt + 1} attempts: {e}")
+            return {"score": 0, "reason": "Could not generate AI score due to server load."}
+
+    return {"score": 0, "reason": "Evaluation failed unexpectedly."}
 
 print("Checking for new internships...")
 
@@ -92,6 +113,10 @@ for index, row in jobs.iterrows():
         
         print(f"Scoring: {title}...")
         ai_eval = evaluate_fit(title, desc)
+        
+        if not isinstance(ai_eval, dict):
+            ai_eval = {"score": 0, "reason": "Evaluation error."}
+            
         score = int(ai_eval.get('score', 0))
         
         score_color = 0x00ff00 if score >= 7 else 0xffa500
@@ -115,7 +140,7 @@ for index, row in jobs.iterrows():
 
         payload = {
             "embeds": [{
-                "title": f"[{ai_eval['score']}/10] {title}",
+                "title": f"[{score}/10] {title}",
                 "url": job_url,
                 "description": f"**AI Analysis:** {ai_eval['reason']}\n\n**Snippet:** {desc}",
                 "color": score_color,
