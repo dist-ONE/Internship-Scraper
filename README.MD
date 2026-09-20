@@ -23,7 +23,7 @@ Instead of manually scrolling through job boards, this script runs in the backgr
 
 1. Clone this repository:
    ```bash
-   git clone [https://github.com/yourusername/internship-scraper.git](https://github.com/yourusername/internship-scraper.git)
+   git clone https://github.com/yourusername/Internship-Scraper.git
    cd internship-scraper
    ```
 

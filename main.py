@@ -133,7 +133,7 @@ class DiscordWebhook:
             "embeds": [{
                 "title": f"[{score}/10] {title}",
                 "url": job_url,
-                "description": f"**AI Analysis:**\n{ai_eval.get('reason', 'N/A')}\n\n**📄 Snippet:**\n{desc}",
+                "description": f"**AI Analysis:**\n{ai_eval.get('reason', 'N/A')}\n\n**Snippet:**\n{desc}",
                 "color": color,
                 "fields": [
                     {"name": "Company", "value": self._clean_val(job_row.get('company'), 'Unknown'), "inline": True},
@@ -197,11 +197,11 @@ def run_scraper():
         
         if discord.send_job_alert(row, ai_eval):
             db.mark_job_posted(job_url)
-            print(f"✅ Sent to Discord (Score: {ai_eval.get('score', 0)})")
+            print(f"Sent to Discord (Score: {ai_eval.get('score', 0)})")
             
             time.sleep(CONFIG['webhook_delay'])
             
-    print(f"\n🏁 Finished! Processed {new_jobs_count} new postings.")
+    print(f"\nFinished! Processed {new_jobs_count} new postings.")
 
 if __name__ == "__main__":
     run_scraper()
