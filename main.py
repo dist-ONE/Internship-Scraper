@@ -16,10 +16,12 @@ CONFIG = {
     "max_results": 15,
     
     "candidate_profile": """
-    - Education: Second-year Artificial Intelligence student at Babeș-Bolyai University.
-    - Languages: C, C++, Python, Luau, Bash.
-    - Core Engineering: Game development (client-server architectures, custom physics/UI, Roblox Knit framework), AI applications (local LLMs via Ollama, RAG pipelines, ChromaDB), 3D geometric simulations, and graph algorithms.
-    - Notable Projects: 'CADPilot' (AI 3D model generator, Top 80 InnovationLabs) and 'OverEngineered' (multiplayer party game).
+    - Education: Second-year Artificial Intelligence student at Babeș-Bolyai University. Informatics olympiad award winner.
+    - Languages: Python, C, C++, JavaScript, Luau, Bash.
+    - Software Engineering & Architecture: Backend API development (FastAPI, REST), Data Engineering (ETL, pandas, SQLite, Web Scraping), Infrastructure (Docker, Linux, Git), and Game Development (client-server networks, custom physics, Roblox Knit framework).
+    - AI & Machine Learning: Generative AI workflows, Large Language Models (Gemini, Ollama), NLP, Vector Databases (ChromaDB), RAG pipelines, and Semantic Search algorithms.
+    - Spatial & Algorithms: Live GTFS real-time integration, OSRM dynamic routing, NetworkX graph algorithms, 1D projection mathematics, and Web GIS map rendering (Leaflet.js).
+    - Notable Projects: 'ClujPulse' (Real-time public transit map visualizer using FastAPI & Docker), 'GitRecall' (Local AI-powered CLI Git assistant), 'Internship Scraper' (Automated NLP job evaluator pipeline), 'CADPilot' (AI 3D model generator, Top 80 InnovationLabs), and 'OverEngineered' (Multiplayer party game, Project Lead managing a team of 8).
     """,
     
     "webhook_delay": 2.0,
